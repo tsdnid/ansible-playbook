@@ -1,0 +1,24 @@
+---
+- hosts: cpanel
+  no_log: true
+  vars:
+#        ansible_ssh_user: 'your_user'
+#        ansible_port: 'your_port'
+#        ansible_ssh_private_key_file: "/home/user/.ssh/id_rsa"
+       limit: "1" #minimum want to display in log
+  tags:
+    - configuration
+  gather_facts: False
+  
+  tasks:
+   - name: Remove frozen email
+     shell: exiqgrep -z -i | xargs exim -Mrm
+
+   - name: Remove failed email from skycloudstar
+     shell: exiqgrep -r skycloudstar.com -i | xargs exim -Mrm
+
+   - name: Remove failed email from example.com -i | xargs exim -Mrm
+     shell: exiqgrep -f example.com -i | xargs exim -Mrm
+   
+   - name: Remove failed email older than 1 hours
+     shell: exiqgrep -o 3600 -i | xargs exim -Mrm
