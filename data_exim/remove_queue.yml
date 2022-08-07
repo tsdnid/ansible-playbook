@@ -18,7 +18,7 @@
      shell: exiqgrep -r skycloudstar.com -i | xargs exim -Mrm
 
    - name: Remove failed email from example.com -i | xargs exim -Mrm
-     shell: exiqgrep -f example.com -i | xargs exim -Mrm
+     shell: exiqgrep -r example.com -i | xargs exim -Mrm
    
    - name: Remove failed email older than 1 hours
      shell: exiqgrep -o 3600 -i | xargs exim -Mrm
