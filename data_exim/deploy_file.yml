@@ -1,0 +1,18 @@
+---
+- hosts: all
+  vars:
+#        ansible_ssh_user: 'your_user'
+#        ansible_port: 'your_port'
+#        ansible_ssh_private_key_file: "/home/user/.ssh/id_rsa"
+  tags:
+    - configuration
+  gather_facts: False
+
+  tasks:
+   - name: Copy file rm to server
+     copy:
+       src: ./rm_exim_queue.sh
+       dest: /web/rm_exim_queue
+       owner: root
+       group: root
+       mode: '611'
