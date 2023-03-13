@@ -1,0 +1,36 @@
+---
+- hosts: localhost
+  gather_facts: False
+
+  tasks: 
+  - name: Create file log and Remove file log if an exist
+    shell : rm -rf list_username.txt; touch list_username.txt
+
+- hosts: all
+  vars:
+#        ansible_ssh_user: 'user'
+#        ansible_port: 'port'
+#        ansible_ssh_private_key_file: yourID_rsa
+#        mountpoint: "/"  #mountpoint disk want to check
+#        limit_max: "1"
+  tags:
+    - configuration
+  gather_facts: no
+  
+  tasks:
+   - name: Checking username to list
+     shell: cat /etc/trueuserdomains | awk {'print $2'} | sort -u
+     register: username
+
+   - name: Server List
+     shell: echo "{{ inventory_hostname }}" | awk '{ print $1 }' | cut -d "." -f1
+     register: server
+
+   - name: Adding record username to list on file
+     lineinfile:
+      dest: list_username.txt
+      line: "==> List username in {{ server.stdout }} <== \n{{ username.stdout }} \n \n"
+      state: present
+     delegate_to: 127.0.0.1
+
+
