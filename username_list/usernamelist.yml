@@ -11,8 +11,6 @@
 #        ansible_ssh_user: 'user'
 #        ansible_port: 'port'
 #        ansible_ssh_private_key_file: yourID_rsa
-#        mountpoint: "/"  #mountpoint disk want to check
-#        limit_max: "1"
   tags:
     - configuration
   gather_facts: no
