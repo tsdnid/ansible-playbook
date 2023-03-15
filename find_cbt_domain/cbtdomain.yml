@@ -6,7 +6,7 @@
   - name: Create file log and Remove file log if an exist
     shell : rm -rf cbt_domain_list.txt; touch cbt_domain_list.txt
 
-- hosts: cpanel_id_2
+- hosts: cpanel
   vars:
 #        ansible_ssh_user: 'user'
 #        ansible_port: 'port'
