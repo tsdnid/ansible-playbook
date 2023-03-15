@@ -1,0 +1,34 @@
+---
+- hosts: localhost
+  gather_facts: False
+
+  tasks: 
+  - name: Create file log and Remove file log if an exist
+    shell : rm -rf cbt_domain_list.txt; touch cbt_domain_list.txt
+
+- hosts: cpanel_id_2
+  vars:
+#        ansible_ssh_user: 'user'
+#        ansible_port: 'port'
+#        ansible_ssh_private_key_file: yourID_rsa
+  tags:
+    - configuration
+  gather_facts: no
+  
+  tasks:
+   - name: Checking domain to list
+     shell: grep -E "ujian|exam|cbt|elearning|e-xam" /etc/userdomains
+     register: domain
+
+   - name: Server List
+     shell: echo "{{ inventory_hostname }}" | awk '{ print $1 }' | cut -d "." -f1
+     register: server
+
+   - name: Adding record domain to list on file
+     lineinfile:
+      dest: cbt_domain_list.txt
+      line: "\n==> List domain contain CBT / ujian in {{ server.stdout }} <== \n{{ domain.stdout }} \n \n"
+      state: present
+     delegate_to: 127.0.0.1
+
+
